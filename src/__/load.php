@@ -86,8 +86,8 @@ class __
     static public function __loader($name, $arguments)
     {
         if (count(self::$functions) == 0) {
-            foreach (self::$modules as $key => $value) {
-                foreach (glob(__DIR__ . '/' . $value . '/*.php', GLOB_BRACE) as $function) {
+            foreach (self::$modules as $value) {
+                foreach (glob(__DIR__ . '/' . $value . '/*.php') as $function) {
                     $path  = explode('.', str_replace(__DIR__ . '/', '', $function));
                     $alias = str_replace('/', '\\', array_shift($path));
 
@@ -99,7 +99,7 @@ class __
             }
         }
 
-        foreach (self::$functions as $key => $value) {
+        foreach (self::$functions as $value) {
             if (strpos($value, $name)) {
                 return call_user_func_array($value, $arguments);
             }
